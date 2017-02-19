@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class PasteModel extends Model{
 
     public $table = "pastes";
-    public $primaryKey = "pasteStringID";
+    public $primaryKey = "pasteID";
 
     public static function addPasteToDatabase($pasteContent, $pasteExpiryDate, $pasteAuthor){
 
@@ -38,5 +38,12 @@ class PasteModel extends Model{
     	}
 
         return $pasteStringID;
+    }
+
+    public static function getLastPastes(){
+
+        $latestPastes = \App\PasteModel::where('pasteExpiryDate', '>', \DB::raw('now()'))->orderBy('pasteCreatedDate', 'desc')->limit(5)->get();
+        return $latestPastes;
+        
     }
 }

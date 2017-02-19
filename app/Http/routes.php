@@ -16,7 +16,12 @@ Route::get('/', function () {
     return view('home');
 });
 
-Route::get('p/{pasteID}', 'PasteController@viewPaste');
+View::composer('*', function($view){
+
+	$view -> with('lastPastes', \App\PasteModel::getLastPastes());
+});
+
+Route::get('p/{pasteStringID}', 'PasteController@viewPaste');
 Route::get('addPaste', function(){ 
 	
 	return view('addPaste') ;

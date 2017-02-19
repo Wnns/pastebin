@@ -8,24 +8,16 @@ use App\Http\Requests;
 
 class PasteController extends Controller{
     
-    public function viewPaste($pasteID){
+    public function viewPaste($pasteStringID){
 
-    	$pasteData = \App\PasteModel::find($pasteID);
+        $pasteData = \App\PasteModel::where('pasteStringID', '=', $pasteStringID)->where('pasteExpiryDate', '>', \DB::raw('now()'))->get();
 
-    	if(!$pasteData){
-
-    		return view('notfound');
-    	}
-
-        $timePasteExpiryDate = strtotime($pasteData['pasteExpiryDate']);
-        $timeNow = strtotime('now');
-
-        if($timePasteExpiryDate <= $timeNow && !empty($timePasteExpiryDate)){
+        if($pasteData -> count() == 0){
 
             return view('notfound');
         }
 
-    	return view('paste', $pasteData);
+        return view('paste', $pasteData[0]);
     }
 
     public function addPaste(Request $request){
@@ -60,12 +52,12 @@ class PasteController extends Controller{
         $pasteContent = $request -> input('pasteContent');
         $pasteAuthor = $request -> input('pasteAuthor');
 
-    	$insert = \App\PasteModel::addPasteToDatabase($pasteContent, $pasteExpiryDate, $pasteAuthor);
+        $insert = \App\PasteModel::addPasteToDatabase($pasteContent, $pasteExpiryDate, $pasteAuthor);
 
-    	if(!$insert){
+        if(!$insert){
 
-    		return back()->withInput()->withErrors('Error occured while adding this paste.');
-    	}
+            return back()->withInput()->withErrors('Error occured while adding this paste.');
+        }
 
         return redirect("p/$insert");
     }

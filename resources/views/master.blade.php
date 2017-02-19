@@ -32,7 +32,7 @@
 		</div>
 		<div class="col-lg-2">
 
-			@yield('lastPastes')
+			@include('lastPastes')
 		</div>
 	</div>
 </body>
