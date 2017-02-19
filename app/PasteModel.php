@@ -7,9 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class PasteModel extends Model{
 
     public $table = "pastes";
-    public $primaryKey = "pasteID";
 
-    public static function addPasteToDatabase($pasteContent, $pasteExpiryDate, $pasteAuthor){
+    public static function addPasteToDatabase($pasteContent, $pasteExpiryDate, $pasteAuthor, $pasteTitle){
 
         echo $pasteExpiryDate;
 
@@ -19,18 +18,19 @@ class PasteModel extends Model{
 
     		$pasteStringID = str_random(6);
 
-    		if(self::where('pasteStringID', '=', $pasteStringID)->count() == 0){
+    		if(self::where('string_id', '=', $pasteStringID)->count() == 0){
 
     			break;
     		}
     	}
 
     	$insert = self::insert(
-    		['pasteStringID' => $pasteStringID, 
-    		'pasteContent' => $pasteContent,
-            'pasteAuthor' => $pasteAuthor,
-            'pasteExpiryDate' => \DB::raw('now() + ' . $pasteExpiryDate),
-            'pasteCreatedDate' => \DB::raw('now()')]);
+    		['string_id' => $pasteStringID, 
+    		'content' => $pasteContent,
+            'title' => $pasteTitle,
+            'author' => $pasteAuthor,
+            'expiry_at' => \DB::raw('now() + ' . $pasteExpiryDate),
+            'created_at' => \DB::raw('now()')]);
 
     	if(!$insert){
 
@@ -42,7 +42,7 @@ class PasteModel extends Model{
 
     public static function getLastPastes(){
 
-        $latestPastes = \App\PasteModel::where('pasteExpiryDate', '>', \DB::raw('now()'))->orderBy('pasteCreatedDate', 'desc')->limit(5)->get();
+        $latestPastes = \App\PasteModel::where('expiry_at', '>', \DB::raw('now()'))->orderBy('created_at', 'desc')->limit(5)->get();
         return $latestPastes;
         
     }

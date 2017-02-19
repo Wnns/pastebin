@@ -10,7 +10,7 @@ class PasteController extends Controller{
     
     public function viewPaste($pasteStringID){
 
-        $pasteData = \App\PasteModel::where('pasteStringID', '=', $pasteStringID)->where('pasteExpiryDate', '>', \DB::raw('now()'))->get();
+        $pasteData = \App\PasteModel::where('string_id', '=', $pasteStringID)->where('expiry_at', '>', \DB::raw('now()'))->get();
 
         if($pasteData -> count() == 0){
 
@@ -22,7 +22,7 @@ class PasteController extends Controller{
 
     public function addPaste(Request $request){
 
-        $pasteContent; $pasteExpiryDate = 'Never'; $pasteAuthor;
+        $pasteContent; $pasteExpiryDate = 'Never'; $pasteAuthor; $pasteTitle;
 
         $this -> validate($request, [
 
@@ -51,8 +51,12 @@ class PasteController extends Controller{
 
         $pasteContent = $request -> input('pasteContent');
         $pasteAuthor = $request -> input('pasteAuthor');
+        $pasteTitle = $request -> input('pasteTitle');
 
-        $insert = \App\PasteModel::addPasteToDatabase($pasteContent, $pasteExpiryDate, $pasteAuthor);
+        $pasteAuthor = (empty($pasteAuthor) ? 'Anonymous' : $pasteAuthor);
+        $pasteTitle = (empty($pasteTitle) ? 'Untitled' : $pasteTitle);
+
+        $insert = \App\PasteModel::addPasteToDatabase($pasteContent, $pasteExpiryDate, $pasteAuthor, $pasteTitle);
 
         if(!$insert){
 

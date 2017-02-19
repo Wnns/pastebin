@@ -3,8 +3,10 @@
 @section('content')
 
 @foreach($errors->all() as $error)
+
 	<div class="alert alert-danger">
-	{{$error}}
+		
+		{{$error}}
 	</div>
 @endforeach
 
@@ -16,8 +18,13 @@
 		<textarea class="form-control paste-textarea" name="pasteContent">{{ old('pasteContent')}}</textarea><br><br>
 		<div class="form-inline">
 
+			<label for="pasteTitle">Title</label>
+			<input type="text" name="pasteTitle" class="form-control" value="{{ old('pasteTitle', '') }}">
+		</div><br>
+		<div class="form-inline">
+
 			<label for="pasteAuthor">Author</label>
-			<input type="text" name="pasteAuthor" class="form-control" value="{{ old('pasteAuthor', 'Anonymous') }}">
+			<input type="text" name="pasteAuthor" class="form-control" value="{{ old('pasteAuthor') }}">
 		</div><br>
 		<div class="form-inline">
 
