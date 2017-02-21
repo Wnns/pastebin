@@ -21,7 +21,7 @@
 					<a href="/pastebin">Pastebin</a>
 				</div>
 			</div>
-			<a href="/pastebin/addPaste" class="navbar-btn btn btn-success">New paste</a>
+			<a href="/pastebin" class="navbar-btn btn btn-success">New paste</a>
 		</div>
 	</div>
 	<div class="container">

@@ -8,9 +8,27 @@ class PasteModel extends Model{
 
     public $table = "pastes";
 
-    public static function addPasteToDatabase($pasteContent, $pasteExpiryDate, $pasteAuthor, $pasteTitle){
+    // Disable Laravel's updated_at
+    public function getUpdatedAtColumn(){
+        
+    }
 
-        echo $pasteExpiryDate;
+    public static function getPaste($pasteStringID){
+
+        $pasteData = \App\PasteModel::where('string_id', '=', $pasteStringID)->where('expiry_at', '>', \DB::raw('now()'))->get();
+
+        if($pasteData -> count() == 0){
+
+            return false;
+        }
+
+        \App\PasteModel::where('string_id', '=', $pasteStringID)
+            ->increment('views');
+
+        return $pasteData;
+    }
+
+    public static function addPasteToDatabase($pasteContent, $pasteExpiryDate, $pasteAuthor, $pasteTitle, $pasteIsPrivate){
 
     	$pasteStringID;
 
@@ -30,7 +48,9 @@ class PasteModel extends Model{
             'title' => $pasteTitle,
             'author' => $pasteAuthor,
             'expiry_at' => \DB::raw('now() + ' . $pasteExpiryDate),
-            'created_at' => \DB::raw('now()')]);
+            'created_at' => \DB::raw('now()'),
+            'is_private' => $pasteIsPrivate,
+            'views' => '0']);
 
     	if(!$insert){
 
@@ -42,8 +62,12 @@ class PasteModel extends Model{
 
     public static function getLastPastes(){
 
-        $latestPastes = \App\PasteModel::where('expiry_at', '>', \DB::raw('now()'))->orderBy('created_at', 'desc')->limit(5)->get();
+        $latestPastes = \App\PasteModel::where('expiry_at', '>', \DB::raw('now()'))
+            ->where('is_private', '=', '0')
+            ->orderBy('created_at', 'desc')
+            ->limit(5)
+            ->get();
+
         return $latestPastes;
-        
     }
 }

@@ -10,9 +10,9 @@ class PasteController extends Controller{
     
     public function viewPaste($pasteStringID){
 
-        $pasteData = \App\PasteModel::where('string_id', '=', $pasteStringID)->where('expiry_at', '>', \DB::raw('now()'))->get();
+        $pasteData = \App\PasteModel::getPaste($pasteStringID);
 
-        if($pasteData -> count() == 0){
+        if(!$pasteData){
 
             return view('notfound');
         }
@@ -52,17 +52,19 @@ class PasteController extends Controller{
         $pasteContent = $request -> input('pasteContent');
         $pasteAuthor = $request -> input('pasteAuthor');
         $pasteTitle = $request -> input('pasteTitle');
+        $pasteIsPrivate = $request -> input('pasteIsPrivate');
 
         $pasteAuthor = (empty($pasteAuthor) ? 'Anonymous' : $pasteAuthor);
         $pasteTitle = (empty($pasteTitle) ? 'Untitled' : $pasteTitle);
+        $pasteIsPrivate = (empty($pasteIsPrivate) ? '0' : '1');
 
-        $insert = \App\PasteModel::addPasteToDatabase($pasteContent, $pasteExpiryDate, $pasteAuthor, $pasteTitle);
+        $insert = \App\PasteModel::addPasteToDatabase($pasteContent, $pasteExpiryDate, $pasteAuthor, $pasteTitle, $pasteIsPrivate);
 
         if(!$insert){
 
             return back()->withInput()->withErrors('Error occured while adding this paste.');
         }
-
+        
         return redirect("p/$insert");
     }
 }
