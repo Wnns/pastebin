@@ -6,3 +6,8 @@
 	font-size: 13px;
 	color:red;
 }
+
+pre, code{
+
+	background-color: white;
+}

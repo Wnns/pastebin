@@ -28,7 +28,7 @@ class PasteModel extends Model{
         return $pasteData;
     }
 
-    public static function addPasteToDatabase($pasteContent, $pasteExpiryDate, $pasteAuthor, $pasteTitle, $pasteIsPrivate){
+    public static function addPasteToDatabase($pasteContent, $pasteExpiryDate, $pasteAuthor, $pasteTitle, $pasteIsPrivate, $pasteSyntaxHighlighting){
 
     	$pasteStringID;
 
@@ -50,7 +50,8 @@ class PasteModel extends Model{
             'expiry_at' => \DB::raw('now() + ' . $pasteExpiryDate),
             'created_at' => \DB::raw('now()'),
             'is_private' => $pasteIsPrivate,
-            'views' => '0']);
+            'views' => '0',
+            'syntax' => $pasteSyntaxHighlighting]);
 
     	if(!$insert){
 

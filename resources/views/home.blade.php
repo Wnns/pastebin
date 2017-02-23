@@ -39,6 +39,25 @@
 				<option>1 month</option>
 			</select>
 		</div><br>
+		<div class="form-inline">
+
+			<label for="pasteSyntaxHighlighting">Syntax highlighting:</label>
+			<select class="form-control" name="pasteSyntaxHighlighting">
+				
+				<option>None</option>
+				<option>C#</option>
+				<option>C++</option>
+				<option>CSS</option>
+				<option>HTML</option>
+				<option>JSON</option>
+				<option>Java</option>
+				<option>JavaScript</option>
+				<option>PHP</option>
+				<option>Python</option>
+				<option>Ruby</option>
+				<option>SQL</option>
+			</select>
+		</div><br>
 		<input type="checkbox" name="pasteIsPrivate" />
 		<abbr title="Paste will not be showed in Last pastes section">Private</abbr>
 		<br><br>

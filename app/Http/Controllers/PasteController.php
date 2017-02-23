@@ -22,7 +22,7 @@ class PasteController extends Controller{
 
     public function addPaste(Request $request){
 
-        $pasteContent; $pasteExpiryDate = 'Never'; $pasteAuthor; $pasteTitle;
+        $pasteContent; $pasteExpiryDate = 'Never'; $pasteAuthor; $pasteTitle; $pasteSyntaxHighlight = 'None';
 
         $this -> validate($request, [
 
@@ -40,11 +40,36 @@ class PasteController extends Controller{
             '1 month' => "interval '1' month"
         ];
 
+        $sytnaxHighlights = [
+
+            'C#',
+            'C++',
+            'CSS',
+            'HTML',
+            'JSON',
+            'Java',
+            'JavaScript',
+            'None',
+            'PHP',
+            'Python',
+            'Ruby',
+            'SQL',
+        ];
+
         foreach ($expiryDates as $key => $value) {
             
             if($request ->input('pasteExpiryDate') == $key){
 
                 $pasteExpiryDate = $value;
+                break;
+            }
+        }
+
+        foreach ($sytnaxHighlights as $value) {
+            
+            if($request ->input('pasteSyntaxHighlighting') == $value){
+
+                $pasteSyntaxHighlighting = $value;
                 break;
             }
         }
@@ -58,7 +83,7 @@ class PasteController extends Controller{
         $pasteTitle = (empty($pasteTitle) ? 'Untitled' : $pasteTitle);
         $pasteIsPrivate = (empty($pasteIsPrivate) ? '0' : '1');
 
-        $insert = \App\PasteModel::addPasteToDatabase($pasteContent, $pasteExpiryDate, $pasteAuthor, $pasteTitle, $pasteIsPrivate);
+        $insert = \App\PasteModel::addPasteToDatabase($pasteContent, $pasteExpiryDate, $pasteAuthor, $pasteTitle, $pasteIsPrivate, $pasteSyntaxHighlighting);
 
         if(!$insert){
 

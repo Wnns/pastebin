@@ -1,11 +1,19 @@
 @extends('master')
 
+@section('head')
+
+	<link rel="stylesheet" href="{{ URL::asset('public/css/highlightjs/github-gist.css') }}">
+	<script src="{{ URL::asset('public/js/highlight.pack.js') }}"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+@stop
 
 @section('content')
-	{{ $content }}
+
+	<pre><code class="{{ ($syntax == 'None' ? 'nohighlight' : $syntax ) }}">{{ $content }}</code></pre>
 	<hr>
-	{{ $title }}<br>
+	{{ $title }}<br><br>
 	<b>Created by:</b> {{ $author }} <b>on</b> {{ \Carbon\Carbon::parse($created_at)->format('d-m-Y') }}<br>
-	<i>Expires: {{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $expiry_at)->diffForHumans() }}</i><br>
-	<small>Views: {{ $views }} </small>
+	<small><i>Expires: {{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $expiry_at)->diffForHumans() }}</i><br>
+	Syntax: {{ $syntax }}<br>
+	Views: {{ $views }} </small>
 @stop
