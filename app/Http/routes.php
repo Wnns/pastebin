@@ -11,21 +11,13 @@
 |
 */
 
-Route::get('/', function () {
-   
-    return view('home');
-});
+Route::get('/', function () { return view('home'); });
+Route::get('p/{pasteStringID}', 'PasteController@viewPaste');
+Route::get('/popular', 'PasteController@viewPopular');
+
+Route::post('addPaste', 'PasteController@addPaste');
 
 View::composer('*', function($view){
 
 	$view -> with('lastPastes', \App\PasteModel::getLastPastes());
 });
-
-Route::get('p/{pasteStringID}', 'PasteController@viewPaste');
-Route::get('addPaste', function(){ 
-	
-	return view('addPaste') ;
-});
-
-Route::post('addPaste', 'PasteController@addPaste');
-

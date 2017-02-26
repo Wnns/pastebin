@@ -22,7 +22,14 @@
 					<a href="{{ URL::to('/') }}">Pastebin</a>
 				</div>
 			</div>
-			<a href="{{ URL::to('/') }}" class="navbar-btn btn btn-success">New paste</a>
+			<div class="navbar-nav">
+				
+				<a href="{{ URL::to('/') }}" class="navbar-btn btn btn-success">New paste</a>
+			</div>
+			<ul class="nav navbar-nav">
+				
+				<li><a href="{{ URL::to('/popular') }}">Popular pastes</a></li>
+			</ul>
 		</div>
 	</div>
 	<div class="container">

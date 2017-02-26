@@ -20,6 +20,13 @@ class PasteController extends Controller{
         return view('paste', $pasteData[0]);
     }
 
+    public function viewPopular(){
+
+        $popularPastes = \App\PasteModel::getPopularPastes();
+
+        return view('popular', compact('popularPastes'));
+    }
+
     public function addPaste(Request $request){
 
         $pasteContent; $pasteExpiryDate = 'Never'; $pasteAuthor; $pasteTitle; $pasteSyntaxHighlight = 'None';

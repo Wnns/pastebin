@@ -17,7 +17,7 @@ class PasteModel extends Model{
 
         $pasteData = \App\PasteModel::where('string_id', '=', $pasteStringID)->where('expiry_at', '>', \DB::raw('now()'))->get();
 
-        if($pasteData -> count() == 0){
+        if($pasteData -> isEmpty()){
 
             return false;
         }
@@ -70,5 +70,19 @@ class PasteModel extends Model{
             ->get();
 
         return $latestPastes;
+    }
+
+    public static function getPopularPastes(){
+
+        $popularPastes = \App\PasteModel::orderBy('views', 'desc')
+           ->limit(10)
+           ->get();
+
+        if($popularPastes -> isEmpty()){
+
+            return false;
+        }
+
+        return $popularPastes;
     }
 }
