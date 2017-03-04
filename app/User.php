@@ -3,24 +3,19 @@
 namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Auth;
 
-class User extends Authenticatable
-{
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'name', 'email', 'password',
-    ];
+class User extends Authenticatable{
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
+    public $table = 'users';
+    public $timestamps = false;
+
+    public static function getDashboardData(){
+
+        $userPastes = \App\PasteModel::where('author', '=', Auth::user() -> id)
+        	->orderBy('created_at', 'DESC')
+            ->get();
+
+        return $userPastes;
+    }
 }

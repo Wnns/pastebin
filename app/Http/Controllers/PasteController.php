@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests;
+use Auth;
 
 class PasteController extends Controller{
     
@@ -20,7 +21,7 @@ class PasteController extends Controller{
         return view('paste', $pasteData[0]);
     }
 
-    public function viewPopular(){
+    public function viewPopularPastes(){
 
         $popularPastes = \App\PasteModel::getPopularPastes();
 
@@ -82,7 +83,16 @@ class PasteController extends Controller{
         }
 
         $pasteContent = $request -> input('pasteContent');
-        $pasteAuthor = $request -> input('pasteAuthor');
+
+        if(Auth::check()){
+
+            $pasteAuthor = Auth::user() -> id;
+        }
+        else{
+
+            $pasteAuthor = '0';
+        }
+        
         $pasteTitle = $request -> input('pasteTitle');
         $pasteIsPrivate = $request -> input('pasteIsPrivate');
 
@@ -90,13 +100,13 @@ class PasteController extends Controller{
         $pasteTitle = (empty($pasteTitle) ? 'Untitled' : $pasteTitle);
         $pasteIsPrivate = (empty($pasteIsPrivate) ? '0' : '1');
 
-        $insert = \App\PasteModel::addPasteToDatabase($pasteContent, $pasteExpiryDate, $pasteAuthor, $pasteTitle, $pasteIsPrivate, $pasteSyntaxHighlighting);
+        $dbInsert = \App\PasteModel::addPasteToDatabase($pasteContent, $pasteExpiryDate, $pasteAuthor, $pasteTitle, $pasteIsPrivate, $pasteSyntaxHighlighting);
 
-        if(!$insert){
+        if(!$dbInsert){
 
             return back()->withInput()->withErrors('Error occured while adding this paste.');
         }
         
-        return redirect("p/$insert");
+        return redirect("p/$dbInsert");
     }
 }

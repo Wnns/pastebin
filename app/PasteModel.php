@@ -15,7 +15,10 @@ class PasteModel extends Model{
 
     public static function getPaste($pasteStringID){
 
-        $pasteData = \App\PasteModel::where('string_id', '=', $pasteStringID)->where('expiry_at', '>', \DB::raw('now()'))->get();
+        $pasteData = \App\PasteModel::where('string_id', '=', $pasteStringID)
+            ->leftJoin('users', 'pastes.author', '=', 'users.id')
+            ->where('expiry_at', '>', \DB::raw('now()'))
+            ->get();
 
         if($pasteData -> isEmpty()){
 
@@ -75,8 +78,10 @@ class PasteModel extends Model{
     public static function getPopularPastes(){
 
         $popularPastes = \App\PasteModel::orderBy('views', 'desc')
-           ->limit(10)
-           ->get();
+            ->leftJoin('users', 'pastes.author', '=', 'users.id')
+            ->where('is_private', '=', '0')
+            ->limit(10)
+            ->get();
 
         if($popularPastes -> isEmpty()){
 

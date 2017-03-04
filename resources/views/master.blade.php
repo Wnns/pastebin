@@ -30,6 +30,30 @@
 				
 				<li><a href="{{ URL::to('/popular') }}">Popular pastes</a></li>
 			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+
+					@if(Auth::check() == 1)
+					
+						<a href="{{ URL::to('/logout') }}">Logout</a>
+					@else
+
+						<a href="{{ URL::to('/register') }}">Register</a>
+					@endif
+				</li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+
+					@if(Auth::check() == 1)
+					
+						<a href="{{ URL::to('/dashboard') }}">Dashboard</a>
+					@else
+
+						<a href="{{ URL::to('/login') }}">Login</a>
+					@endif
+				</li>
+			</ul>
 		</div>
 	</div>
 	<div class="container">

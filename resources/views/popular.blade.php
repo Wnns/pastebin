@@ -22,7 +22,7 @@
 				<td><a href="{{ URL::to('/p/' . $pasteData['string_id']) }}">{{ $pasteData['title'] }} </a></td>
 				<td>{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $pasteData['created_at'])->diffForHumans() }} </td>
 				<td>{{ $pasteData['views'] }} </td>
-				<td>{{ $pasteData['author'] }} </td>
+				<td>{{ $pasteData['name'] = (empty($pasteData['name']) ? 'Anonymous' : $pasteData['name']) }} </td>
 			</tr>
 		@endforeach
 		</tbody>

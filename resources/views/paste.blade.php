@@ -12,7 +12,7 @@
 	<pre><code class="{{ ($syntax == 'None' ? 'nohighlight' : $syntax ) }}">{{ $content }}</code></pre>
 	<hr>
 	{{ $title }}<br><br>
-	<b>Created by:</b> {{ $author }} <b>on</b> {{ \Carbon\Carbon::parse($created_at)->format('d-m-Y') }}<br>
+	<b>Created by:</b> {{ $name = (empty($name) ? 'Anonymous' : $name) }} <b>on</b> {{ \Carbon\Carbon::parse($created_at)->format('d-m-Y') }}<br>
 	<small><i>Expires: {{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $expiry_at)->diffForHumans() }}</i><br>
 	Syntax: {{ $syntax }}<br>
 	Views: {{ $views }} </small>

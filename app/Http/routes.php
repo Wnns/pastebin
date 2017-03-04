@@ -12,10 +12,17 @@
 */
 
 Route::get('/', function () { return view('home'); });
-Route::get('p/{pasteStringID}', 'PasteController@viewPaste');
-Route::get('/popular', 'PasteController@viewPopular');
+Route::get('/p/{pasteStringID}', 'PasteController@viewPaste');
+Route::get('/popular', 'PasteController@viewPopularPastes');
+Route::get('/dashboard', 'UserController@viewDashboard')->middleware('auth');
+
+Route::get('/login', function () { return view('login'); })->middleware('guest');
+Route::get('/register', function () { return view('register'); })->middleware('guest');
+Route::get('/logout', 'UserController@logout');
 
 Route::post('addPaste', 'PasteController@addPaste');
+Route::post('login', 'UserController@aunthenticate');
+Route::post('register', 'UserController@create');
 
 View::composer('*', function($view){
 
