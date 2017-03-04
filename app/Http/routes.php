@@ -13,6 +13,8 @@
 
 Route::get('/', function () { return view('home'); });
 Route::get('/p/{pasteStringID}', 'PasteController@viewPaste');
+Route::get('/p/{pasteStringID}/remove', 'PasteController@removePaste')->middleware('auth');
+Route::get('/p/{pasteStringID}/raw', 'PasteController@viewRawPaste');
 Route::get('/popular', 'PasteController@viewPopularPastes');
 Route::get('/dashboard', 'UserController@viewDashboard')->middleware('auth');
 

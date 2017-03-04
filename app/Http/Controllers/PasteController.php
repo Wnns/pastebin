@@ -109,4 +109,26 @@ class PasteController extends Controller{
         
         return redirect("p/$dbInsert");
     }
+
+    public function removePaste($pasteStringID){
+
+        \App\PasteModel::removePasteFromDatabase($pasteStringID);
+        return redirect('/dashboard');
+    }
+
+    public function viewRawPaste($pasteStringID){
+
+        $pasteData = \App\PasteModel::getPaste($pasteStringID);
+
+        if(!$pasteData){
+
+            return view('notfound');
+        }
+
+        echo '<pre>';
+        echo htmlspecialchars($pasteData[0]->content);
+        echo '</pre>';
+
+        return;
+    }
 }

@@ -10,7 +10,7 @@
 			<tr>
 
 				<td class="col-md-8">Title</td>
-				<td>Added</td>
+				<td>Created</td>
 				<td>Views</td>
 				<td>Author</td>
 			</tr>

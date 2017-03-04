@@ -61,6 +61,7 @@
 		<div class="col-lg-10">
 			
 			@yield('content')
+			<br><br><br>
 		</div>
 		<div class="col-lg-2">
 

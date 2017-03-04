@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Auth;
 
 class PasteModel extends Model{
 
@@ -89,5 +90,22 @@ class PasteModel extends Model{
         }
 
         return $popularPastes;
+    }
+
+    public static function removePasteFromDatabase($pasteStringID){
+
+        $pasteAuthor = self::where('string_id', '=', $pasteStringID)
+            ->select('author')
+            ->get()[0]->author;
+
+        if(Auth::user()->id != $pasteAuthor){
+
+            return false;
+        }
+
+        self::where('string_id', '=', $pasteStringID)
+            ->delete();
+
+        return true;
     }
 }

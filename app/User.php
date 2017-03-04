@@ -9,6 +9,7 @@ class User extends Authenticatable{
 
     public $table = 'users';
     public $timestamps = false;
+    protected $fillable = ['name', 'password', 'email'];
 
     public static function getDashboardData(){
 

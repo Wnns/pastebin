@@ -54,7 +54,7 @@
             </select>
         </div><br>
         <input type="checkbox" name="pasteIsPrivate" />
-        <abbr title="Paste will not be showed in Last pastes section">Private</abbr>
+        <abbr title="Paste will not be showed in public lists">Private</abbr>
         <br><br>
         <input type="submit" class="btn btn-success" value="Create new paste">
         <br><br><br>
