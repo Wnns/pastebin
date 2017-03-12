@@ -32,7 +32,7 @@
 		@foreach($userPastes as $paste)
 			<tr>
 				
-				<td><a href="{{ URL::to('/p/' . $paste['string_id']) }}">{{ $paste['title'] }} </a></td>
+				<td><a href="{{ URL::to('/p/' . $paste['string_id']) }}" onClick="return confirm('Are you sure?');">{{ $paste['title'] }} </a></td>
 				<td>{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $paste['created_at'])->diffForHumans() }} </td>
 				<td>{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $paste['expiry_at'])->diffForHumans() }} </td>
 				<td>{{ $paste['syntax'] }} </td>

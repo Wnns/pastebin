@@ -31,7 +31,7 @@ class PastesController extends Controller{
 
     public function addPaste(Request $request){
 
-        $pasteContent; $pasteExpiryDate = 'Never'; $pasteAuthor; $pasteTitle; $PastesyntaxHighlight = 'None';
+        $pasteContent; $pasteExpiryDate = 'Never'; $pasteAuthor; $pasteTitle; $pasteSyntaxHighlight = 'None';
 
         $this -> validate($request, [
 
@@ -76,9 +76,9 @@ class PastesController extends Controller{
 
         foreach ($sytnaxHighlights as $value) {
             
-            if($request ->input('PastesyntaxHighlighting') == $value){
+            if($request ->input('pasteSyntaxHighlighting') == $value){
 
-                $PastesyntaxHighlighting = $value;
+                $pasteSyntaxHighlight = $value;
                 break;
             }
         }
@@ -101,7 +101,7 @@ class PastesController extends Controller{
         $pasteTitle = (empty($pasteTitle) ? 'Untitled' : $pasteTitle);
         $pasteIsPrivate = (empty($pasteIsPrivate) ? '0' : '1');
 
-        $dbInsert = Pastes::addPasteToDatabase($pasteContent, $pasteExpiryDate, $pasteAuthor, $pasteTitle, $pasteIsPrivate, $PastesyntaxHighlighting);
+        $dbInsert = Pastes::addPasteToDatabase($pasteContent, $pasteExpiryDate, $pasteAuthor, $pasteTitle, $pasteIsPrivate, $pasteSyntaxHighlight);
 
         if(!$dbInsert){
 
