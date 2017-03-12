@@ -4,16 +4,16 @@ namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Auth;
+use App\Pastes as Pastes;
 
-class User extends Authenticatable{
+class Users extends Authenticatable{
 
-    public $table = 'users';
     public $timestamps = false;
     protected $fillable = ['name', 'password', 'email'];
 
     public static function getDashboardData(){
 
-        $userPastes = \App\PasteModel::where('author', '=', Auth::user() -> id)
+        $userPastes = Pastes::where('author', '=', Auth::user() -> id)
         	->orderBy('created_at', 'DESC')
             ->get();
 

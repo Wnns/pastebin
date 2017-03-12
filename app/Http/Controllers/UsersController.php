@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests;
+use App\Users as Users;
 use Validator;
 
-class UserController extends Controller{
+class UsersController extends Controller{
     
     public function aunthenticate(Request $request){
 
@@ -36,7 +37,7 @@ class UserController extends Controller{
             return back()->withInput()->withErrors($validate -> messages());
         }
 
-        \App\User::create(['name' => $login,
+        Users::create(['name' => $login,
                     'password' => bcrypt($password),
                     'email' => $email]);
 
@@ -48,7 +49,7 @@ class UserController extends Controller{
 
     public function viewDashboard(){
 
-        $userPastes = \App\User::getDashboardData();
+        $userPastes = Users::getDashboardData();
 
     	return view('dashboard', compact('userPastes'));
     }

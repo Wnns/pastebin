@@ -12,21 +12,21 @@
 */
 
 Route::get('/', function () { return view('home'); });
-Route::get('/p/{pasteStringID}', 'PasteController@viewPaste');
-Route::get('/p/{pasteStringID}/remove', 'PasteController@removePaste')->middleware('auth');
-Route::get('/p/{pasteStringID}/raw', 'PasteController@viewRawPaste');
-Route::get('/popular', 'PasteController@viewPopularPastes');
-Route::get('/dashboard', 'UserController@viewDashboard')->middleware('auth');
+Route::get('/p/{pasteStringID}', 'PastesController@viewPaste');
+Route::get('/p/{pasteStringID}/remove', 'PastesController@removePaste')->middleware('auth');
+Route::get('/p/{pasteStringID}/raw', 'PastesController@viewRawPaste');
+Route::get('/popular', 'PastesController@viewPopularPastes');
+Route::get('/dashboard', 'UsersController@viewDashboard')->middleware('auth');
 
 Route::get('/login', function () { return view('login'); })->middleware('guest');
 Route::get('/register', function () { return view('register'); })->middleware('guest');
-Route::get('/logout', 'UserController@logout');
+Route::get('/logout', 'UsersController@logout');
 
-Route::post('addPaste', 'PasteController@addPaste');
-Route::post('login', 'UserController@aunthenticate');
-Route::post('register', 'UserController@create');
+Route::post('addPaste', 'PastesController@addPaste');
+Route::post('login', 'UsersController@aunthenticate');
+Route::post('register', 'UsersController@create');
 
 View::composer('*', function($view){
 
-	$view -> with('lastPastes', \App\PasteModel::getLastPastes());
+	$view -> with('lastPastes', \App\Pastes::getLastPastes());
 });

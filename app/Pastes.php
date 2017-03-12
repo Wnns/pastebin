@@ -5,9 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Auth;
 
-class PasteModel extends Model{
-
-    public $table = "pastes";
+class Pastes extends Model{
 
     // Disable Laravel's updated_at
     public function getUpdatedAtColumn(){
@@ -16,7 +14,7 @@ class PasteModel extends Model{
 
     public static function getPaste($pasteStringID){
 
-        $pasteData = \App\PasteModel::where('string_id', '=', $pasteStringID)
+        $pasteData = self::where('string_id', '=', $pasteStringID)
             ->leftJoin('users', 'pastes.author', '=', 'users.id')
             ->where('expiry_at', '>', \DB::raw('now()'))
             ->get();
@@ -26,7 +24,7 @@ class PasteModel extends Model{
             return false;
         }
 
-        \App\PasteModel::where('string_id', '=', $pasteStringID)
+        self::where('string_id', '=', $pasteStringID)
             ->increment('views');
 
         return $pasteData;
@@ -67,7 +65,7 @@ class PasteModel extends Model{
 
     public static function getLastPastes(){
 
-        $latestPastes = \App\PasteModel::where('expiry_at', '>', \DB::raw('now()'))
+        $latestPastes = self::where('expiry_at', '>', \DB::raw('now()'))
             ->where('is_private', '=', '0')
             ->orderBy('created_at', 'desc')
             ->limit(5)
@@ -78,7 +76,7 @@ class PasteModel extends Model{
 
     public static function getPopularPastes(){
 
-        $popularPastes = \App\PasteModel::orderBy('views', 'desc')
+        $popularPastes = self::orderBy('views', 'desc')
             ->leftJoin('users', 'pastes.author', '=', 'users.id')
             ->where('is_private', '=', '0')
             ->limit(10)

@@ -6,12 +6,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests;
 use Auth;
+use App\Pastes as Pastes;
 
-class PasteController extends Controller{
+class PastesController extends Controller{
     
-    public function viewPaste($pasteStringID){
+    public function viewPaste($PastestringID){
 
-        $pasteData = \App\PasteModel::getPaste($pasteStringID);
+        $pasteData = Pastes::getPaste($PastestringID);
 
         if(!$pasteData){
 
@@ -23,14 +24,14 @@ class PasteController extends Controller{
 
     public function viewPopularPastes(){
 
-        $popularPastes = \App\PasteModel::getPopularPastes();
+        $popularPastes = Pastes::getPopularPastes();
 
         return view('popular', compact('popularPastes'));
     }
 
     public function addPaste(Request $request){
 
-        $pasteContent; $pasteExpiryDate = 'Never'; $pasteAuthor; $pasteTitle; $pasteSyntaxHighlight = 'None';
+        $pasteContent; $pasteExpiryDate = 'Never'; $pasteAuthor; $pasteTitle; $PastesyntaxHighlight = 'None';
 
         $this -> validate($request, [
 
@@ -75,9 +76,9 @@ class PasteController extends Controller{
 
         foreach ($sytnaxHighlights as $value) {
             
-            if($request ->input('pasteSyntaxHighlighting') == $value){
+            if($request ->input('PastesyntaxHighlighting') == $value){
 
-                $pasteSyntaxHighlighting = $value;
+                $PastesyntaxHighlighting = $value;
                 break;
             }
         }
@@ -100,7 +101,7 @@ class PasteController extends Controller{
         $pasteTitle = (empty($pasteTitle) ? 'Untitled' : $pasteTitle);
         $pasteIsPrivate = (empty($pasteIsPrivate) ? '0' : '1');
 
-        $dbInsert = \App\PasteModel::addPasteToDatabase($pasteContent, $pasteExpiryDate, $pasteAuthor, $pasteTitle, $pasteIsPrivate, $pasteSyntaxHighlighting);
+        $dbInsert = Pastes::addPasteToDatabase($pasteContent, $pasteExpiryDate, $pasteAuthor, $pasteTitle, $pasteIsPrivate, $PastesyntaxHighlighting);
 
         if(!$dbInsert){
 
@@ -110,15 +111,15 @@ class PasteController extends Controller{
         return redirect("p/$dbInsert");
     }
 
-    public function removePaste($pasteStringID){
+    public function removePaste($PastestringID){
 
-        \App\PasteModel::removePasteFromDatabase($pasteStringID);
+        Pastes::removePasteFromDatabase($PastestringID);
         return redirect('/dashboard');
     }
 
-    public function viewRawPaste($pasteStringID){
+    public function viewRawPaste($PastestringID){
 
-        $pasteData = \App\PasteModel::getPaste($pasteStringID);
+        $pasteData = Pastes::getPaste($PastestringID);
 
         if(!$pasteData){
 
