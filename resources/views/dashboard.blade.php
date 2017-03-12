@@ -32,13 +32,13 @@
 		@foreach($userPastes as $paste)
 			<tr>
 				
-				<td><a href="{{ URL::to('/p/' . $paste['string_id']) }}" onClick="return confirm('Are you sure?');">{{ $paste['title'] }} </a></td>
+				<td><a href="{{ URL::to('/p/' . $paste['string_id']) }}">{{ $paste['title'] }} </a></td>
 				<td>{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $paste['created_at'])->diffForHumans() }} </td>
 				<td>{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $paste['expiry_at'])->diffForHumans() }} </td>
 				<td>{{ $paste['syntax'] }} </td>
 				<td>{{ $paste['views'] }} </td>
 				<td>{{ $paste['is_private'] = ($paste['is_private'] == '1' ? 'Yes' : 'No') }} </td>
-				<td class="text-center"><a href="{{ URL::to('/p/' . $paste['string_id']) . '/remove'}}"><span class="glyphicon glyphicon-remove
+				<td class="text-center"><a href="{{ URL::to('/p/' . $paste['string_id']) . '/remove'}}" onclick="return confirm('Are you sure?');"><span class="glyphicon glyphicon-remove
 "></span></a></td>
 			</tr>
 		@endforeach
